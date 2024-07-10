@@ -2,7 +2,6 @@ import { h, FunctionComponent } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { Route, Router } from 'preact-router';
 import ChatbotPopup from './popup';
-import Header from './header';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
 
@@ -17,7 +16,6 @@ const App: FunctionComponent = () => {
 
   return (
     <div>
-      <Header />
       <ChatbotPopup
         onSendMessage={handleSendMessage}
         messages={messages}

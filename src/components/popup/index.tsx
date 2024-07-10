@@ -1,5 +1,6 @@
 import { h, FunctionComponent } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import BottomMenu from '../footer'
 
 interface ChatbotPopupProps {
   onSendMessage: (message: string) => void;
@@ -77,7 +78,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
               color: 'white',
             }}
           >
-            <h3 style={{ margin: 0 }}>Converse with Markov</h3>
+            <h3 style={{ margin: 0 }}>Conversation with Markov</h3>
           </div>
           <div
             className="chatbot-popup-content"
@@ -173,55 +174,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
                 </button>
               </div>
             )}
-            <div className="bottom-menu" style={{ display: 'flex' }}>
-              <button
-                onClick={() => handleScreenChange('chat')}
-                style={{
-                  flex: '1',
-                  padding: '8px 12px',
-                  backgroundColor: currentScreen === 'chat' ? '#007bff' : '#f1f0f0',
-                  color: currentScreen === 'chat' ? 'white' : '#333',
-                  border: 'none',
-                  borderRadius: '16px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                }}
-              >
-                Chat
-              </button>
-              <button
-                onClick={() => handleScreenChange('menu')}
-                style={{
-                  flex: '1',
-                  padding: '8px 12px',
-                  backgroundColor: currentScreen === 'menu' ? '#007bff' : '#f1f0f0',
-                  color: currentScreen === 'menu' ? 'white' : '#333',
-                  border: 'none',
-                  borderRadius: '16px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  marginLeft: '12px',
-                }}
-              >
-                Menu
-              </button>
-              <button
-                onClick={() => handleScreenChange('settings')}
-                style={{
-                  flex: '1',
-                  padding: '8px 12px',
-                  backgroundColor: currentScreen === 'settings' ? '#007bff' : '#f1f0f0',
-                  color: currentScreen === 'settings' ? 'white' : '#333',
-                  border: 'none',
-                  borderRadius: '16px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  marginLeft: '12px',
-                }}
-              >
-                Settings
-              </button>
-            </div>
+            <BottomMenu currentScreen={currentScreen} handleScreenChange={handleScreenChange}/>
           </div>
         </div>
       )}
