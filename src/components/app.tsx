@@ -7,12 +7,7 @@ import Home from '../routes/home';
 import Profile from '../routes/profile';
 
 const App: FunctionComponent = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [messages, setMessages] = useState<{ isUser: boolean; text: string }[]>([]);
-
-  const handlePopupToggle = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
 
   const handleSendMessage = (message: string) => {
     setMessages([...messages, { isUser: true, text: message }]);
@@ -24,7 +19,6 @@ const App: FunctionComponent = () => {
     <div>
       <Header />
       <ChatbotPopup
-        isOpen={isPopupOpen}
         onSendMessage={handleSendMessage}
         messages={messages}
       />
