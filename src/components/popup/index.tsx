@@ -1,4 +1,4 @@
-import { h, FunctionComponent } from 'preact';
+import { h, Fragment, FunctionComponent } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import BottomMenu from '../footer'
 
@@ -184,18 +184,44 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
           position: 'fixed',
           bottom: '20px',
           right: '20px',
-          padding: '12px 24px',
+          padding: '12px',
           backgroundColor: '#007bff',
           color: 'white',
           border: 'none',
-          borderRadius: '24px',
+          borderRadius: '50%',
           cursor: 'pointer',
-          fontSize: '16px',
           boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
           zIndex: '9999',
+          width: '48px',
+          height: '48px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        {isChatbotVisible ? 'Hide Chatbot' : 'Show Chatbot'}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {
+            isChatbotVisible ?
+            <Fragment>
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </Fragment>
+            : 
+            <Fragment>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </Fragment>
+          }
+        </svg>
       </button>
     </div>
   );
