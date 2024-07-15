@@ -55,6 +55,41 @@ export const chatbotPopupStyles = {
       padding: '8px 12px',
       borderRadius: '16px',
     },
+    articleDescription: {
+      fontSize: '12px',
+      margin: '5px 0',
+      color: '#666',
+    },
+    articleContainer: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+      gap: '10px',
+      padding: '10px',
+    },
+    articleCard: {
+      backgroundColor: '#f8f9fa',
+      border: '1px solid #e0e0e0',
+      borderRadius: '8px',
+      padding: '10px',
+      textDecoration: 'none',
+      color: '#333',
+      transition: 'background-color 0.3s',
+    },
+    articleTitle: {
+      margin: '0 0 10px 0',
+      fontSize: '14px',
+      fontWeight: 'bold',
+    },
+    articleReadMore: {
+      margin: '0',
+      fontSize: '12px',
+      color: '#007bff',
+    },
+    articlesSectionTitle: {
+      margin: '0 0 15px 0',
+      fontSize: '18px',
+      fontWeight: 'bold',
+    }
   };
   
   export const chatInputStyles = {

@@ -2,6 +2,7 @@ import { h, FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { ChatContentProps } from '../types';
 import { chatContentStyles } from '../styles';
+import { articles, Article } from '../articles';
 
 const ChatContent: FunctionComponent<ChatContentProps> = ({
   chatState,
@@ -36,14 +37,34 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
     ))
   );
 
+  const renderArticleCards = () => {
+    return (
+      <div style={chatContentStyles.articleContainer}>
+        {articles.map((article: Article) => (
+          <a
+            key={article.id}
+            href={article.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={chatContentStyles.articleCard}
+          >
+            <h4 style={chatContentStyles.articleTitle}>{article.title}</h4>
+            <p style={chatContentStyles.articleDescription}>{article.description}</p>
+            <p style={chatContentStyles.articleReadMore}>Read more →</p>
+          </a>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div style={chatContentStyles.container} className="chatbot-popup-content">
       {currentScreen === 'applicant' && renderMessages(chatState.applicant)}
       {currentScreen === 'recruiter' && renderMessages(chatState.recruiter)}
       {currentScreen === 'articles' && (
         <div>
-          <h3>News</h3>
-          <p>This is where you can configure your chatbot settings.</p>
+          <h3 style={chatContentStyles.articlesSectionTitle}>Latest Updates</h3>
+          {renderArticleCards()}
         </div>
       )}
     </div>
