@@ -1,24 +1,36 @@
 import { h, FunctionComponent } from 'preact';
-import { useState, useEffect } from 'preact/hooks';
-import { Route, Router } from 'preact-router';
-import ChatbotPopup from './popup';
-import Home from '../routes/home';
-import Profile from '../routes/profile';
+import { useState } from 'preact/hooks';
+import ChatbotPopup from './chat-popup';
+import { ChatState } from './types';
 
 const App: FunctionComponent = () => {
-  const [messages, setMessages] = useState<{ isUser: boolean; text: string }[]>([]);
+  const [chatState, setChatState] = useState<ChatState>({
+    applicant: [],
+    recruiter: [],
+  });
 
-  const handleSendMessage = (message: string) => {
-    setMessages([...messages, { isUser: true, text: message }]);
-    const botResponse = 'This is a sample bot response.';
-    setMessages([...messages, { isUser: true, text: message }, { isUser: false, text: botResponse }]);
+  const handleSendMessage = (message: string, screen: 'applicant' | 'recruiter') => {
+    setChatState(prevState => {
+      const updatedMessages = [
+        ...prevState[screen],
+        { isUser: true, text: message },
+      ];
+
+      const botResponse = `This is a sample bot response for ${screen}.`;
+      updatedMessages.push({ isUser: false, text: botResponse });
+
+      return {
+        ...prevState,
+        [screen]: updatedMessages,
+      };
+    });
   };
 
   return (
     <div>
       <ChatbotPopup
         onSendMessage={handleSendMessage}
-        messages={messages}
+        chatState={chatState}
       />
     </div>
   );
