@@ -18,6 +18,7 @@ export interface ChatState {
 export interface ChatbotPopupProps {
   onSendMessage: (message: string, screen: 'applicant' | 'recruiter') => void;
   chatState: ChatState;
+  resetChatState: () => void;
 }
 
 export interface ChatContentProps {

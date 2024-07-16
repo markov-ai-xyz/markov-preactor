@@ -11,6 +11,7 @@ import { chatbotPopupStyles } from '../styles';
 const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
   onSendMessage,
   chatState,
+  resetChatState,
 }) => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('applicant');
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
@@ -55,6 +56,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
       <ToggleButton
         isChatbotVisible={isChatbotVisible}
         toggleChatbot={toggleChatbot}
+        resetChatState={resetChatState}
       />
     </div>
   );

@@ -1,17 +1,19 @@
 import { postRequestWithJwt } from '../utils';
 import { ChatState, Message } from '../types';
+import { handleWebhookConnection } from '../webhook';
 
 class ActionProvider {
   private baseUrl: string;
   private setChatState: React.Dispatch<React.SetStateAction<ChatState>>;
   private currentScreen: 'applicant' | 'recruiter';
 
-  constructor(baseUrl: string, setChatState: React.Dispatch<React.SetStateAction<ChatState>>) {
+  constructor(baseUrl, setChatState) {
     this.baseUrl = baseUrl;
     this.setChatState = setChatState;
+    this.currentScreen = 'applicant';
   }
 
-  async parseMessage(message: string, screen: 'applicant' | 'recruiter', chatHistory: Message[]): Promise<void> {
+  async parseMessage(message, screen, chatHistory) {
     this.currentScreen = screen;
     const isNumberConfirmed = localStorage.getItem('isNumberConfirmed') === 'true';
     const phoneNumber = localStorage.getItem('phoneNumber') || '';
@@ -23,7 +25,7 @@ class ActionProvider {
     }
   }
 
-  private async handleFirstInteraction(message: string): Promise<void> {
+  async handleFirstInteraction(message) {
     const phoneNumberPattern = /^\d{10}$/;
     if (phoneNumberPattern.test(message)) {
       const formattedNumber = this.prependCountryCode(message);
@@ -33,67 +35,20 @@ class ActionProvider {
     }
   }
 
-  private prependCountryCode(number: string): string {
+  prependCountryCode(number) {
     return `91${number}`;
   }
 
-  private async handlePhoneNumber(input: string): Promise<void> {
-    const wsUrl = `${this.baseUrl.replace('http', 'ws')}/authenticate`;
-    
-    return new Promise((resolve, reject) => {
-      try {
-        const ws = new WebSocket(wsUrl);
-        
-        ws.onopen = () => {
-          ws.send(input);
-        };
-
-        ws.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          if (data.status === "Confirm" || data.status === "Error") {
-            localStorage.setItem('isNumberConfirmed', 'true');
-            localStorage.setItem('phoneNumber', input);
-          }
-          this.addBotMessage(data.message);
-        };
-
-        ws.onclose = async () => {
-          const latitude = localStorage.getItem('latitude');
-          const longitude = localStorage.getItem('longitude');
-          const payload = {
-            "phone": input,
-            "lat": latitude,
-            "long": longitude,
-          };
-          
-          try {
-            await postRequestWithJwt(`${this.baseUrl}/location`, payload);
-            this.addBotMessage("What skills are you seeking a job for?");
-            resolve();
-          } catch (error) {
-            console.error('Error:', error);
-            this.addBotMessage("An error occurred while processing your location.");
-            reject(error);
-          }
-        };
-
-        ws.onerror = (error) => {
-          console.error(`WebSocket error: ${error}`);
-          reject(error);
-        };
-      } catch (e) {
-        console.error(`WebSocket error: ${e}`);
-        reject(e);
-      }
-    });
+  async handlePhoneNumber(input) {
+    await handleWebhookConnection(this.baseUrl, input, this.addBotMessage.bind(this));
   }
 
-  async sendMessage(message: string, screen: 'applicant' | 'recruiter', chatHistory: Message[], phoneNumber: string): Promise<void> {
+  async sendMessage(message, screen, chatHistory, phoneNumber) {
     const endpoint = `${this.baseUrl}/erekrut-agent`;
     const payload = {
-      "phone_number": phoneNumber || "919650768080",
-      "input": message,
-      "chat_history": chatHistory
+      phone_number: phoneNumber || "919650768080",
+      input: message,
+      chat_history: chatHistory
     };
 
     try {
@@ -105,7 +60,7 @@ class ActionProvider {
     }
   }
 
-  private addBotMessage(message: string): void {
+  addBotMessage(message) {
     this.setChatState(prevState => ({
       ...prevState,
       [this.currentScreen]: [...prevState[this.currentScreen], { message, type: 'bot' }],

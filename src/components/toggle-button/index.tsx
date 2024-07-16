@@ -1,18 +1,26 @@
 import { h, Fragment, FunctionComponent } from 'preact';
 import { ToggleButtonProps } from '../types';
 import { toggleButtonStyles } from '../styles';
-import { validateApiKey } from '../utils';
+import { cleanLocalStorage, validateApiKey } from '../utils';
 
-const ToggleButton: FunctionComponent<ToggleButtonProps> = ({
+interface ExtendedToggleButtonProps extends ToggleButtonProps {
+  resetChatState: () => void;
+}
+
+const ToggleButton: FunctionComponent<ExtendedToggleButtonProps> = ({
   isChatbotVisible,
   toggleChatbot,
+  resetChatState
 }) => {
   const handleToggleChatbot = () => {
     toggleChatbot();
     if (!isChatbotVisible) {
+      cleanLocalStorage();
       validateApiKey('mdp-erekrut');
+      resetChatState();
     }
   };
+
 
   return (
     <button

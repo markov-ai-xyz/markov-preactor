@@ -10,6 +10,13 @@ const App: FunctionComponent = () => {
     recruiter: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
   });
 
+  const resetChatState = () => {
+    setChatState({
+      applicant: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
+      recruiter: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
+    });
+  };
+
   const actionProvider = new ActionProvider('https://www.markovai.xyz', setChatState);
 
   const handleSendMessage = async (message: string, screen: 'applicant' | 'recruiter') => {
@@ -30,6 +37,7 @@ const App: FunctionComponent = () => {
       <ChatbotPopup
         onSendMessage={handleSendMessage}
         chatState={chatState}
+        resetChatState={resetChatState}
       />
     </div>
   );

@@ -1,54 +1,10 @@
-import { h } from 'preact';
-
-type MessageType = 'bot' | 'user';
-
-interface ChatMessage {
-  message: string;
-  type: MessageType;
-  id: number;
+export const cleanLocalStorage = () => {
+  localStorage.removeItem("isNumberConfirmed");
+  localStorage.removeItem("phoneNumber");
+  localStorage.removeItem("latitude");
+  localStorage.removeItem("longitude");
+  localStorage.removeItem("markovJwt");
 }
-
-interface BotMessageOptions {
-  [key: string]: any;
-  loading?: boolean;
-}
-
-interface Config {
-  apiKey?: string;
-  initialMessages?: ChatMessage[];
-  widgets?: any[];
-}
-
-export const uniqueIdGenerator = (): (() => number) => {
-  let num = 1;
-  return () => num++;
-};
-
-const uniqueId = uniqueIdGenerator();
-
-export const botMessage = (message: { type: string }): boolean => {
-  return message.type === 'bot';
-};
-
-export const createChatMessage = (message: string, type: MessageType): ChatMessage => {
-  return {
-    message,
-    type,
-    id: uniqueId(),
-  };
-};
-
-export const createChatBotMessage = (message: string, options: BotMessageOptions = {}): ChatMessage & BotMessageOptions => {
-  return {
-    ...createChatMessage(message, 'bot'),
-    ...options,
-    loading: true,
-  };
-};
-
-export const createClientMessage = (message: string): ChatMessage => {
-  return createChatMessage(message, 'user');
-};
 
 export const validateApiKey = async (apiKey?: string): Promise<void> => {
   if (!apiKey || typeof apiKey !== 'string') {
