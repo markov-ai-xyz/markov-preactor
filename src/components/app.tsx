@@ -6,11 +6,11 @@ import ActionProvider from './action-provider';
 
 const App: FunctionComponent = () => {
   const [chatState, setChatState] = useState<ChatState>({
-    applicant: [{ message: "How can I help you?", type: 'bot' }],
-    recruiter: [{ message: "How can I help you?", type: 'bot' }],
+    applicant: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
+    recruiter: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
   });
 
-  const actionProvider = new ActionProvider('https://www.markovai.xyz');
+  const actionProvider = new ActionProvider('https://www.markovai.xyz', setChatState);
 
   const handleSendMessage = async (message: string, screen: 'applicant' | 'recruiter') => {
     setChatState(prevState => ({
@@ -19,12 +19,7 @@ const App: FunctionComponent = () => {
     }));
 
     try {
-      const response = await actionProvider.sendMessage(message, screen, chatState[screen]);
-
-      setChatState(prevState => ({
-        ...prevState,
-        [screen]: [...prevState[screen], { message: response, type: 'bot' }],
-      }));
+      await actionProvider.parseMessage(message, screen, chatState[screen]);
     } catch (error) {
       console.error('Error:', error);
     }
