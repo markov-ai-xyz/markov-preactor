@@ -1,6 +1,6 @@
 import { h, FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
-import { ChatContentProps } from '../types';
+import { ChatContentProps, Message } from '../types';
 import { chatContentStyles } from '../styles';
 import { articles, Article } from '../articles';
 
@@ -15,23 +15,23 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
     }
   }, [chatState]);
 
-  const renderMessages = (messages: { isUser: boolean; text: string }[]) => (
+  const renderMessages = (messages: Message[]) => (
     messages.map((message, index) => (
       <div
         key={index}
         style={{
           ...chatContentStyles.messageContainer,
-          flexDirection: message.isUser ? 'row-reverse' : 'row',
+          flexDirection: message.type === 'user' ? 'row-reverse' : 'row',
         }}
       >
         <div
           style={{
             ...chatContentStyles.message,
-            backgroundColor: message.isUser ? '#007bff' : '#f1f0f0',
-            color: message.isUser ? 'white' : '#333',
+            backgroundColor: message.type === 'user' ? '#007bff' : '#f1f0f0',
+            color: message.type === 'user' ? 'white' : '#333',
           }}
         >
-          {message.text}
+          {message.message}
         </div>
       </div>
     ))

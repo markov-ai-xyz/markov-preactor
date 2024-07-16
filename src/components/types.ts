@@ -1,13 +1,13 @@
 export type Screen = 'applicant' | 'recruiter' | 'articles';
 
 export interface ChatState {
-  applicant: { isUser: boolean; text: string }[];
-  recruiter: { isUser: boolean; text: string }[];
+  applicant: { message: string; type: 'bot' | 'user' }[];
+  recruiter: { message: string; type: 'bot' | 'user' }[];
 }
 
 export interface Message {
-  isUser: boolean;
-  text: string;
+  message: string;
+  type: 'bot' | 'user';
 }
 
 export interface ChatState {

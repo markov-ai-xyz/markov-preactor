@@ -12,8 +12,6 @@ const ChatInput: FunctionComponent<ChatInputProps> = ({ onSendMessage, currentSc
 
   const handleSendMessage = () => {
     if (inputValue.trim() !== '') {
-      console.log("Handling send message");
-      console.log(inputValue);
       onSendMessage(inputValue);
       setInputValue('');
     }
