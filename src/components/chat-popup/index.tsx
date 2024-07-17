@@ -13,7 +13,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
   chatState,
   resetChatState,
 }) => {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('applicant');
+  const [currentScreen, setCurrentScreen] = useState<Screen>('home');
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
 
   const handleScreenChange = (screen: Screen) => {
@@ -38,6 +38,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
           <ChatContent
             chatState={chatState}
             currentScreen={currentScreen}
+            setCurrentScreen={setCurrentScreen}
           />
           <div style={chatbotPopupStyles.footer}>
             {(currentScreen === 'applicant' || currentScreen === 'recruiter') && (

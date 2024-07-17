@@ -112,6 +112,35 @@ export const chatbotPopupStyles = {
       color: '#007bff',
     },
   };
+
+  export const homeScreenStyles = {
+    homeScreenContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '20px',
+      padding: '20px',
+    },
+    homeScreenCard: {
+      backgroundColor: '#f0f0f0',
+      borderRadius: '8px',
+      padding: '20px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+    },
+    homeScreenCardTitle: {
+      margin: '0 0 10px 0',
+      fontSize: '18px',
+      fontWeight: 'bold',
+    },
+    homeScreenCardDescription: {
+      margin: 0,
+      fontSize: '14px',
+    },
+    homeScreenTitle: {
+      textAlign: 'center',
+      marginBottom: '20px',
+    }
+  }
   
   export const toggleButtonStyles = {
     button: {

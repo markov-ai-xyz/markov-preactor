@@ -21,22 +21,27 @@ export async function handleWebhookConnection(baseUrl, input, addBotMessage) {
       };
 
       ws.onclose = async () => {
-        const latitude = localStorage.getItem('latitude');
-        const longitude = localStorage.getItem('longitude');
-        const payload = {
-          phone: input,
-          lat: latitude,
-          long: longitude,
-        };
-
-        try {
-          await postRequestWithJwt(`${baseUrl}/location`, payload);
-          addBotMessage("What skills are you seeking a job for?");
-          return;
-        } catch (error) {
-          console.error('Error:', error);
-          addBotMessage("An error occurred while processing your location.");
-          reject(error);
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const payload = {
+              phone: input,
+              lat: latitude,
+              long: longitude,
+            };
+            try {
+              postRequestWithJwt(`${baseUrl}/location`, payload);
+              addBotMessage("What skills are you seeking a job for?");
+              return;
+            } catch (error) {
+              console.error('Error:', error);
+              addBotMessage("An error occurred while processing your location.");
+              reject(error);
+            }
+          });
+        } else {
+          console.log("Geolocation not supported by this browser.");
         }
       };
 

@@ -1,4 +1,4 @@
-export type Screen = 'applicant' | 'recruiter' | 'articles';
+export type Screen = 'home' | 'applicant' | 'recruiter' | 'articles';
 
 export interface ChatState {
   applicant: { message: string; type: 'bot' | 'user' }[];
@@ -24,6 +24,7 @@ export interface ChatbotPopupProps {
 export interface ChatContentProps {
   chatState: ChatState;
   currentScreen: Screen;
+  setCurrentScreen: (string) => void;
 }
 
 export interface ChatInputProps {
