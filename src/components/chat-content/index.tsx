@@ -11,7 +11,7 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
 }) => {
   useEffect(() => {
     const chatContent = document.querySelector('.chatbot-popup-content');
-    if (chatContent) {
+    if (chatContent && (currentScreen === 'applicant' || currentScreen === 'recruiter')) {
       chatContent.scrollTop = chatContent.scrollHeight;
     }
   }, [chatState]);
