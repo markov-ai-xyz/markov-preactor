@@ -49,9 +49,9 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
 
   const renderHomeScreenCards = () => {
     const screens = [
-      { name: 'Applicant', id: 'applicant' },
-      { name: 'Recruiter', id: 'recruiter' },
-      { name: 'Articles', id: 'articles' },
+      { name: 'Job Seeker', description: 'Register as a job seeker!', id: 'applicant' },
+      { name: 'Recruiter', description: 'Register as a recruiter!', id: 'recruiter' },
+      { name: 'Articles', description: 'Catch up on the latest!', id: 'articles' },
     ];
 
     return (
@@ -64,7 +64,7 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
           >
             <h3 style={homeScreenStyles.homeScreenCardTitle}>{screen.name}</h3>
             <p style={homeScreenStyles.homeScreenCardDescription}>
-              Go to {screen.name} section
+              {screen.description}
             </p>
           </div>
         ))}
@@ -76,7 +76,6 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
     <div style={chatContentStyles.container} className="chatbot-popup-content">
       {currentScreen === 'home' && (
         <div>
-          <h3 style={homeScreenStyles.homeScreenTitle}>Welcome to the Chatbot</h3>
           {renderHomeScreenCards()}
         </div>
       )}

@@ -52,3 +52,24 @@ export const postRequestWithJwt = async (url: string, payload: any): Promise<any
 
   return response.json();
 };
+
+export const postAudioRequestWithJwt = async (url: string, formData: FormData): Promise<any> => {
+  const token = localStorage.getItem('markovJwt');
+  if (!token) {
+    throw new Error('No token found in local storage');
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
+};

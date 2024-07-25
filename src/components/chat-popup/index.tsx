@@ -9,6 +9,7 @@ import { ChatbotPopupProps, Screen } from '../types';
 import { chatbotPopupStyles } from '../styles';
 
 const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
+  onSendAudioMessage,
   onSendMessage,
   chatState,
   resetChatState,
@@ -22,6 +23,12 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
 
   const toggleChatbot = () => {
     setIsChatbotVisible(!isChatbotVisible);
+  };
+
+  const handleSendAudioMessage = (audioBlob: Blob) => {
+    if (currentScreen === 'applicant' || currentScreen === 'recruiter') {
+      onSendAudioMessage(audioBlob, currentScreen);
+    }
   };
 
   const handleSendMessage = (message: string) => {
@@ -42,7 +49,8 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
           />
           <div style={chatbotPopupStyles.footer}>
             {(currentScreen === 'applicant' || currentScreen === 'recruiter') && (
-              <ChatInput 
+              <ChatInput
+                onSendAudioMessage={handleSendAudioMessage}
                 onSendMessage={handleSendMessage}
                 currentScreen={currentScreen}
               />

@@ -16,6 +16,7 @@ export interface ChatState {
 }
 
 export interface ChatbotPopupProps {
+  onSendAudioMessage: (audioBlob: Blob, screen: 'applicant' | 'recruiter') => void;
   onSendMessage: (message: string, screen: 'applicant' | 'recruiter') => void;
   chatState: ChatState;
   resetChatState: () => void;
@@ -28,6 +29,7 @@ export interface ChatContentProps {
 }
 
 export interface ChatInputProps {
+  onSendAudioMessage: (audioBlob: Blob) => void;
   onSendMessage: (message: string) => void;
   currentScreen: 'applicant' | 'recruiter';
 }

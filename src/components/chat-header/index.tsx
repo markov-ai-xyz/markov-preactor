@@ -3,7 +3,7 @@ import { chatHeaderStyles } from '../styles';
 
 const ChatHeader: FunctionComponent = () => (
   <div style={chatHeaderStyles.container}>
-    <h3 style={chatHeaderStyles.title}>Conversation with Markov</h3>
+    <h3 style={chatHeaderStyles.title}>Conversation with Erika</h3>
   </div>
 );
 
