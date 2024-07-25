@@ -66,7 +66,9 @@ class ActionProvider {
 
     try {
       const response = await postAudioRequestWithJwt(endpoint, formData);
-      this.addBotMessage(response.output);
+      const textInput = response.output;
+      this.addUserMessage(textInput);
+      this.sendMessage(textInput, screen, chatHistory, phoneNumber)
     } catch (error) {
       console.error('Error sending message:', error);
       this.addBotMessage("Sorry, an error occurred. Please try again.");
@@ -94,6 +96,13 @@ class ActionProvider {
     this.setChatState(prevState => ({
       ...prevState,
       [this.currentScreen]: [...prevState[this.currentScreen], { message, type: 'bot' }],
+    }));
+  }
+
+  addUserMessage(message) {
+    this.setChatState(prevState => ({
+      ...prevState,
+      [this.currentScreen]: [...prevState[this.currentScreen], { message, type: 'user' }],
     }));
   }
 }
