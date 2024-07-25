@@ -56,7 +56,7 @@ class ActionProvider {
   }
 
   async sendAudio(audioBlob, screen, chatHistory, phoneNumber) {
-    const endpoint = 'http://localhost:5000/erekrut-agent-audio';
+    const endpoint = `${this.baseUrl}/erekrut-agent-audio`;
     const formData = new FormData();
 
     console.log(audioBlob);

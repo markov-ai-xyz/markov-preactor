@@ -5,7 +5,7 @@ import { ChatState, Message } from './types';
 import ActionProvider from './action-provider';
 
 const App: FunctionComponent = () => {
-  if ('serviceWorker' in navigator) {
+  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
       for (let registration of registrations) {
         registration.unregister();
