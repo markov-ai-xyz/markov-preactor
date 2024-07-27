@@ -11,16 +11,15 @@ export async function handleWebhookConnection(baseUrl, input, addBotMessage) {
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        if (data.status === "Confirm" || data.status === "Error") {
+        addBotMessage(data.message);
+        if (data.status === "Confirm") {
           localStorage.setItem('isNumberConfirmed', 'true');
           localStorage.setItem('phoneNumber', input);
+          addBotMessage("What skills are you seeking a job for?");
         }
-        addBotMessage(data.message);
       };
 
-      ws.onclose = async () => {
-        addBotMessage("What skills are you seeking a job for?");
-      };
+      ws.onclose = () => {};
 
       ws.onerror = (error) => {
         console.error(`WebSocket error: ${error}`);
