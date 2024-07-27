@@ -67,8 +67,12 @@ class ActionProvider {
     try {
       const response = await postAudioRequestWithJwt(endpoint, formData);
       const textInput = response.output;
-      this.addUserMessage(textInput);
-      this.sendMessage(textInput, screen, chatHistory, phoneNumber)
+      if (textInput.trim() !== '') {
+        this.addUserMessage(textInput);
+        this.sendMessage(textInput, screen, chatHistory, phoneNumber)
+      } else {
+        console.log('Text input is empty. Message not sent.');
+      }
     } catch (error) {
       console.error('Error sending message:', error);
       this.addBotMessage("Sorry, an error occurred. Please try again.");
