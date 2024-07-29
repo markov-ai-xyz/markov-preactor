@@ -1,8 +1,6 @@
 import { h, FunctionComponent } from 'preact';
 import { useState, useEffect, useRef } from 'preact/hooks';
 import { v4 as uuidv4 } from 'uuid';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { chatInputStyles } from '../styles';
@@ -21,7 +19,7 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({ apiKey, onLocati
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const debounceTimeout = useRef<number | null>(null);
 
   const fetchSuggestions = async (input: string) => {
@@ -55,18 +53,18 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({ apiKey, onLocati
     }
 
     debounceTimeout.current = setTimeout(() => {
-      if (value.length > 2) {
+      if (value.length > 3) {
         fetchSuggestions(value);
       } else {
         setSuggestions([]);
       }
-    }, 300) as unknown as number;
+    }, 500) as unknown as number;
   };
 
   const handleSelect = async (placeId: string, description: string) => {
     setInputValue(description);
     setSuggestions([]);
-    setOpen(false); // Close the modal after selecting a location
+    setIsOpen(false);
 
     try {
       const response = await fetch(
@@ -95,55 +93,79 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({ apiKey, onLocati
     };
   }, []);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const toggleLocationInput = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <IconButton onClick={handleOpen} style={chatInputStyles.button}>
+    <div style={locationInputStyles.container}>
+      <IconButton onClick={toggleLocationInput} style={chatInputStyles.button}>
         <LocationOnIcon />
       </IconButton>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="location-modal-title"
-        aria-describedby="location-modal-description"
-      >
-        <Box style={modalStyles}>
+      {isOpen && (
+        <div style={locationInputStyles.inputContainer}>
           <input
             value={inputValue}
             onChange={handleInput}
-            placeholder="Enter your location"
+            placeholder="Enter your location..."
+            style={locationInputStyles.input}
           />
-          {isLoading && <div>Loading...</div>}
+          {isLoading && <div style={locationInputStyles.loading}>Loading...</div>}
           {suggestions.length > 0 && (
-            <ul>
+            <ul style={locationInputStyles.suggestionsList}>
               {suggestions.map((suggestion) => (
                 <li
                   key={suggestion.place_id}
                   onClick={() => handleSelect(suggestion.place_id, suggestion.description)}
+                  style={locationInputStyles.suggestionItem}
                 >
                   {suggestion.description}
                 </li>
               ))}
             </ul>
           )}
-        </Box>
-      </Modal>
+        </div>
+      )}
     </div>
   );
 };
 
-const modalStyles = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  backgroundColor: 'white',
-  border: '1px solid #000',
-  boxShadow: 24,
-  padding: '20px',
+const locationInputStyles = {
+  container: {
+    position: 'relative' as 'relative',
+    overflow: 'visible',
+  },
+  inputContainer: {
+    position: 'absolute' as 'absolute',
+    bottom: '100%',
+    right: '-70px',
+    width: '300px',
+    backgroundColor: 'white',
+    border: '2px solid #ccc',
+    borderRadius: '6px',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+    zIndex: 1000,
+  },
+  input: {
+    width: 'calc(100% - 16px)', // Adjusted width to account for padding
+    padding: '8px',
+    fontSize: '14px',
+    border: 'none',
+    borderBottom: '1px solid #eee',
+  },
+  loading: {
+    padding: '8px',
+    textAlign: 'center' as 'center',
+  },
+  suggestionsList: {
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+    maxHeight: '200px',
+    overflowY: 'auto' as 'auto',
+  },
+  suggestionItem: {
+    padding: '8px',
+    cursor: 'pointer',
+  },
 };
 
 export default LocationInput;
