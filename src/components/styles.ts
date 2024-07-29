@@ -108,7 +108,7 @@ export const chatbotPopupStyles = {
       background: 'none',
       border: 'none',
       cursor: 'pointer',
-      marginLeft: '12px',
+      marginLeft: '7px',
       color: '#007bff',
     },
   };

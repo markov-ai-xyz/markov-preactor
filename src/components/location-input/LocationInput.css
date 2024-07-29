@@ -1,0 +1,42 @@
+  .location-input {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .location-input__field {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .location-input__loading {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .location-input__suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .location-input__suggestion-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .location-input__suggestion-card:hover {
+    background-color: #ececec;
+  }
+  
