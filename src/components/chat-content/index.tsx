@@ -11,7 +11,7 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
 }) => {
   useEffect(() => {
     const chatContent = document.querySelector('.chatbot-popup-content');
-    if (chatContent && (currentScreen === 'applicant' || currentScreen === 'recruiter')) {
+    if (chatContent && (currentScreen === 'applicant')) {
       chatContent.scrollTop = chatContent.scrollHeight;
     }
   }, [chatState]);
@@ -50,7 +50,6 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
   const renderHomeScreenCards = () => {
     const screens = [
       { name: 'Job Seeker', description: 'Register as a job seeker!', id: 'applicant' },
-      { name: 'Recruiter', description: 'Register as a recruiter!', id: 'recruiter' },
       { name: 'Articles', description: 'Catch up on the latest!', id: 'articles' },
     ];
 
@@ -80,7 +79,6 @@ const ChatContent: FunctionComponent<ChatContentProps> = ({
         </div>
       )}
       {currentScreen === 'applicant' && renderMessages(chatState.applicant)}
-      {currentScreen === 'recruiter' && renderMessages(chatState.recruiter)}
       {currentScreen === 'articles' && (
         <div>
           <h3 style={chatContentStyles.articlesSectionTitle}>Latest Updates</h3>

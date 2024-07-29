@@ -15,19 +15,17 @@ const App: FunctionComponent = () => {
 
   const [chatState, setChatState] = useState<ChatState>({
     applicant: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
-    recruiter: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
   });
 
   const resetChatState = () => {
     setChatState({
       applicant: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
-      recruiter: [{ message: "Could you please provide your 10 digit phone number?", type: 'bot' }],
     });
   };
 
   const actionProvider = new ActionProvider('https://www.markovai.xyz', setChatState);
 
-  const handleSendAudioMessage = async (audioBlob: Blob, screen: 'applicant' | 'recruiter') => {
+  const handleSendAudioMessage = async (audioBlob: Blob, screen: 'applicant') => {
     setChatState(prevState => ({
       ...prevState,
       [screen]: [...prevState[screen], { message: 'Audio message sent', type: 'user' }],
@@ -41,7 +39,7 @@ const App: FunctionComponent = () => {
     }
   };
 
-  const handleSendMessage = async (message: string, screen: 'applicant' | 'recruiter') => {
+  const handleSendMessage = async (message: string, screen: 'applicant') => {
     setChatState(prevState => ({
       ...prevState,
       [screen]: [...prevState[screen], { message, type: 'user' }],

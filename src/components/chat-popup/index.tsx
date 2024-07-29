@@ -26,13 +26,13 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
   };
 
   const handleSendAudioMessage = (audioBlob: Blob) => {
-    if (currentScreen === 'applicant' || currentScreen === 'recruiter') {
+    if (currentScreen === 'applicant') {
       onSendAudioMessage(audioBlob, currentScreen);
     }
   };
 
   const handleSendMessage = (message: string) => {
-    if (currentScreen === 'applicant' || currentScreen === 'recruiter') {
+    if (currentScreen === 'applicant') {
       onSendMessage(message, currentScreen);
     }
   };
@@ -48,7 +48,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
             setCurrentScreen={setCurrentScreen}
           />
           <div style={chatbotPopupStyles.footer}>
-            {(currentScreen === 'applicant' || currentScreen === 'recruiter') && (
+            {(currentScreen === 'applicant') && (
               <ChatInput
                 onSendAudioMessage={handleSendAudioMessage}
                 onSendMessage={handleSendMessage}

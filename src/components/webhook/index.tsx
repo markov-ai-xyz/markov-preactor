@@ -1,4 +1,4 @@
-export async function handleWebhookConnection(baseUrl, input, addBotMessage) {
+export async function handleWebhookConnection(baseUrl, input, addMessage) {
   const wsUrl = `${baseUrl.replace('http', 'ws')}/authenticate`;
 
   return new Promise((resolve, reject) => {
@@ -11,11 +11,11 @@ export async function handleWebhookConnection(baseUrl, input, addBotMessage) {
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        addBotMessage(data.message);
+        addMessage(data.message, "bot");
         if (data.status === "Confirm") {
           localStorage.setItem('isNumberConfirmed', 'true');
           localStorage.setItem('phoneNumber', input);
-          addBotMessage("What skills are you seeking a job for?");
+          addMessage("What skills are you seeking a job for?", "bot");
         }
       };
 

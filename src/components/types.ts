@@ -1,8 +1,7 @@
-export type Screen = 'home' | 'applicant' | 'recruiter' | 'articles';
+export type Screen = 'home' | 'applicant' | 'articles';
 
 export interface ChatState {
-  applicant: { message: string; type: 'bot' | 'user' }[];
-  recruiter: { message: string; type: 'bot' | 'user' }[];
+  applicant: Message[];
 }
 
 export interface Message {
@@ -10,14 +9,9 @@ export interface Message {
   type: 'bot' | 'user';
 }
 
-export interface ChatState {
-  applicant: Message[];
-  recruiter: Message[];
-}
-
 export interface ChatbotPopupProps {
-  onSendAudioMessage: (audioBlob: Blob, screen: 'applicant' | 'recruiter') => void;
-  onSendMessage: (message: string, screen: 'applicant' | 'recruiter') => void;
+  onSendAudioMessage: (audioBlob: Blob, screen: 'applicant') => void;
+  onSendMessage: (message: string, screen: 'applicant') => void;
   chatState: ChatState;
   resetChatState: () => void;
 }
@@ -31,7 +25,7 @@ export interface ChatContentProps {
 export interface ChatInputProps {
   onSendAudioMessage: (audioBlob: Blob) => void;
   onSendMessage: (message: string) => void;
-  currentScreen: 'applicant' | 'recruiter';
+  currentScreen: 'applicant';
 }
 
 export interface ToggleButtonProps {

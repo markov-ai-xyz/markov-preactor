@@ -5,7 +5,7 @@ import { handleWebhookConnection } from '../webhook';
 class ActionProvider {
   private baseUrl: string;
   private setChatState: React.Dispatch<React.SetStateAction<ChatState>>;
-  private currentScreen: 'applicant' | 'recruiter';
+  private currentScreen: 'applicant';
 
   constructor(baseUrl, setChatState) {
     this.baseUrl = baseUrl;
@@ -19,7 +19,7 @@ class ActionProvider {
     const phoneNumber = localStorage.getItem('phoneNumber') || '';
 
     if (!isNumberConfirmed) {
-      this.addBotMessage("I apologize for the confusion. Could you please provide your 10 digit phone number?");
+      this.addMessage("I apologize for the confusion. Could you please provide your 10 digit phone number?", "bot");
     } else {
       await this.sendAudio(audio, screen, chatHistory, phoneNumber);
     }
@@ -43,7 +43,7 @@ class ActionProvider {
       const formattedNumber = this.prependCountryCode(message);
       await this.handlePhoneNumber(formattedNumber);
     } else {
-      this.addBotMessage("I apologize for the confusion. Could you please provide your 10 digit phone number?");
+      this.addMessage("I apologize for the confusion. Could you please provide your 10 digit phone number?", "bot");
     }
   }
 
@@ -52,7 +52,7 @@ class ActionProvider {
   }
 
   async handlePhoneNumber(input) {
-    await handleWebhookConnection(this.baseUrl, input, this.addBotMessage.bind(this));
+    await handleWebhookConnection(this.baseUrl, input, this.addMessage.bind(this));
   }
 
   async sendAudio(audioBlob, screen, chatHistory, phoneNumber) {
@@ -68,14 +68,14 @@ class ActionProvider {
       const response = await postAudioRequestWithJwt(endpoint, formData);
       const textInput = response.output;
       if (textInput.trim() !== '') {
-        this.addUserMessage(textInput);
+        this.addMessage(textInput, "user");
         this.sendMessage(textInput, screen, chatHistory, phoneNumber)
       } else {
         console.log('Text input is empty. Message not sent.');
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      this.addBotMessage("Sorry, an error occurred. Please try again.");
+      this.addMessage("Sorry, an error occurred. Please try again.", "bot");
     }
   }
 
@@ -89,24 +89,17 @@ class ActionProvider {
 
     try {
       const response = await postRequestWithJwt(endpoint, payload);
-      this.addBotMessage(response.output);
+      this.addMessage(response.output, "bot");
     } catch (error) {
       console.error('Error sending message:', error);
-      this.addBotMessage("Sorry, an error occurred. Please try again.");
+      this.addMessage("Sorry, an error occurred. Please try again.", "bot");
     }
   }
 
-  addBotMessage(message) {
+  addMessage(message: string, type: 'bot' | 'user') {
     this.setChatState(prevState => ({
       ...prevState,
-      [this.currentScreen]: [...prevState[this.currentScreen], { message, type: 'bot' }],
-    }));
-  }
-
-  addUserMessage(message) {
-    this.setChatState(prevState => ({
-      ...prevState,
-      [this.currentScreen]: [...prevState[this.currentScreen], { message, type: 'user' }],
+      [this.currentScreen]: [...prevState[this.currentScreen], { message, type }],
     }));
   }
 }

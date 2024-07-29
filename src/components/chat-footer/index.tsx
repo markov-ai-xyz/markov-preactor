@@ -6,8 +6,8 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ArticleIcon from '@mui/icons-material/Article';
 
 interface BottomMenuProps {
-  currentScreen: 'home' | 'applicant' | 'recruiter' | 'articles';
-  handleScreenChange: (screen: 'home' | 'applicant' | 'recruiter' | 'articles') => void;
+  currentScreen: 'home' | 'applicant' | 'articles';
+  handleScreenChange: (screen: 'home' | 'applicant' | 'articles') => void;
 }
 
 const BottomMenu: FunctionComponent<BottomMenuProps> = ({
@@ -46,22 +46,6 @@ const BottomMenu: FunctionComponent<BottomMenuProps> = ({
         }}
       >
         <WorkIcon />
-      </IconButton>
-      <IconButton
-        onClick={() => handleScreenChange('recruiter')}
-        style={{
-          flex: '1',
-          padding: '8px 12px',
-          backgroundColor: currentScreen === 'recruiter' ? '#007bff' : '#f1f0f0',
-          color: currentScreen === 'recruiter' ? 'white' : '#333',
-          border: 'none',
-          borderRadius: '16px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          marginLeft: '12px',
-        }}
-      >
-        <PersonSearchIcon />
       </IconButton>
       <IconButton
         onClick={() => handleScreenChange('articles')}
