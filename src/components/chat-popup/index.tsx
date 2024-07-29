@@ -15,6 +15,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
   resetChatState,
 }) => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('home');
+  const [isChecked, setIsChecked] = useState(false);
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
 
   const handleScreenChange = (screen: Screen) => {
@@ -46,6 +47,8 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
             chatState={chatState}
             currentScreen={currentScreen}
             setCurrentScreen={setCurrentScreen}
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
           />
           <div style={chatbotPopupStyles.footer}>
             {(currentScreen === 'applicant') && (
@@ -58,6 +61,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
             <BottomMenu
               currentScreen={currentScreen}
               handleScreenChange={handleScreenChange}
+              isChecked={isChecked}
             />
           </div>
         </div>

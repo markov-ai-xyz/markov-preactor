@@ -20,6 +20,8 @@ export interface ChatContentProps {
   chatState: ChatState;
   currentScreen: Screen;
   setCurrentScreen: (string) => void;
+  isChecked: boolean;
+  setIsChecked: (value: boolean) => void;
 }
 
 export interface ChatInputProps {
