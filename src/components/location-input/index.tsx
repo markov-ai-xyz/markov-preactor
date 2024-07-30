@@ -146,7 +146,7 @@ const locationInputStyles = {
     zIndex: 1000,
   },
   input: {
-    width: 'calc(100% - 16px)', // Adjusted width to account for padding
+    width: 'calc(100% - 16px)',
     padding: '8px',
     fontSize: '14px',
     border: 'none',

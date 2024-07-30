@@ -8,8 +8,8 @@ export interface Article {
 export const articles: Article[] = [
     {
         id: "1",
-        title: "Top 10 Job Search Tips",
-        link: "https://www.erekrut.com/",
-        description: "Discover the most effective strategies to land your dream job."
+        title: "Terms & Conditions",
+        link: "https://www.erekrut.com/terms-conditions/",
+        description: "Please read these carefully before proceeding."
     }
 ];
