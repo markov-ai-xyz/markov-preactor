@@ -1,7 +1,7 @@
 import { h, FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
 import ChatbotPopup from './chat-popup';
-import { ChatState, Message } from './types';
+import { ChatState, Location, Message } from './types';
 import ActionProvider from './action-provider';
 
 const App: FunctionComponent = () => {
@@ -39,6 +39,15 @@ const App: FunctionComponent = () => {
     }
   };
 
+  const handleLocationSelect = async (location: Location, screen: 'applicant') => {
+    try {
+      console.log(location);
+      await actionProvider.parseLocation(location, screen);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const handleSendMessage = async (message: string, screen: 'applicant') => {
     setChatState(prevState => ({
       ...prevState,
@@ -56,6 +65,7 @@ const App: FunctionComponent = () => {
     <div>
       <ChatbotPopup
         onSendAudioMessage={handleSendAudioMessage}
+        onSendLocation={handleLocationSelect}
         onSendMessage={handleSendMessage}
         chatState={chatState}
         resetChatState={resetChatState}

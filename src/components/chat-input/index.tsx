@@ -1,18 +1,18 @@
 import { h, FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
-import { ChatInputProps } from '../types';
+import { ChatInputProps, Location } from '../types';
 import { chatInputStyles } from '../styles';
 import AudioRecorder from '../audio-recorder';
 import LocationInput from '../location-input';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 
-const ChatInput: FunctionComponent<ChatInputProps> = ({ onSendAudioMessage, onSendMessage, currentScreen }) => {
+const ChatInput: FunctionComponent<ChatInputProps> = ({ onSendAudioMessage, onSendLocation, onSendMessage, currentScreen }) => {
   const [inputValue, setInputValue] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<{ address: string; lat: number; lng: number } | null>(null);
 
   const handleLocationSelect = (location: { address: string; lat: number; lng: number }) => {
-    setSelectedLocation(location);
+    onSendLocation(location);
   };
 
   const handleInputChange = (event: h.JSX.TargetedEvent<HTMLInputElement, Event>) => {

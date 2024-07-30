@@ -15,7 +15,7 @@ export async function handleWebhookConnection(baseUrl, input, addMessage) {
         if (data.status === "Confirm") {
           localStorage.setItem('isNumberConfirmed', 'true');
           localStorage.setItem('phoneNumber', input);
-          addMessage("What skills are you seeking a job for?", "bot");
+          addMessage("Please share your whereabouts using the pin icon below", "bot");
         }
       };
 

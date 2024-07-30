@@ -78,8 +78,9 @@ const LocationInput: FunctionComponent<LocationInputProps> = ({ apiKey, onLocati
         }
       );
       const data = await response.json();
+      const formatted_address = data.result.formatted_address;
       const { lat, lng } = data.result.geometry.location;
-      onLocationSelect({ address: description, lat, lng });
+      onLocationSelect({ address: formatted_address, lat, lng });
     } catch (error) {
       console.error('Error fetching place details:', error);
     }

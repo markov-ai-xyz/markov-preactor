@@ -9,8 +9,15 @@ export interface Message {
   type: 'bot' | 'user';
 }
 
+export interface Location {
+  address: string; 
+  lat: number; 
+  lng: number;
+}
+
 export interface ChatbotPopupProps {
   onSendAudioMessage: (audioBlob: Blob, screen: 'applicant') => void;
+  onSendLocation: (location: Location, screen: 'applicant') => void;
   onSendMessage: (message: string, screen: 'applicant') => void;
   chatState: ChatState;
   resetChatState: () => void;
@@ -26,6 +33,7 @@ export interface ChatContentProps {
 
 export interface ChatInputProps {
   onSendAudioMessage: (audioBlob: Blob) => void;
+  onSendLocation: (location: Location) => void;
   onSendMessage: (message: string) => void;
   currentScreen: 'applicant';
 }

@@ -5,15 +5,16 @@ import ChatContent from '../chat-content';
 import ChatInput from '../chat-input';
 import ToggleButton from '../toggle-button';
 import BottomMenu from '../chat-footer';
-import { ChatbotPopupProps, Screen } from '../types';
+import { ChatbotPopupProps, Location, Screen } from '../types';
 import { chatbotPopupStyles } from '../styles';
 
 const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
   onSendAudioMessage,
+  onSendLocation,
   onSendMessage,
   chatState,
   resetChatState,
-}) => {
+}) => { 
   const [currentScreen, setCurrentScreen] = useState<Screen>('home');
   const [isChecked, setIsChecked] = useState(false);
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
@@ -29,6 +30,12 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
   const handleSendAudioMessage = (audioBlob: Blob) => {
     if (currentScreen === 'applicant') {
       onSendAudioMessage(audioBlob, currentScreen);
+    }
+  };
+
+  const handleSendLocation = (location: Location) => {
+    if (currentScreen === 'applicant') {
+      onSendLocation(location, currentScreen);
     }
   };
 
@@ -54,6 +61,7 @@ const ChatbotPopup: FunctionComponent<ChatbotPopupProps> = ({
             {(currentScreen === 'applicant') && (
               <ChatInput
                 onSendAudioMessage={handleSendAudioMessage}
+                onSendLocation={handleSendLocation}
                 onSendMessage={handleSendMessage}
                 currentScreen={currentScreen}
               />

@@ -37,6 +37,19 @@ class ActionProvider {
     }
   }
 
+  async parseLocation(location, screen) {
+    this.currentScreen = screen;
+    const isNumberConfirmed = localStorage.getItem('isNumberConfirmed') === 'true';
+    const phoneNumber = localStorage.getItem('phoneNumber') || '';
+
+    if (!isNumberConfirmed) {
+      this.addMessage("I apologize for the confusion. Could you please provide your 10 digit phone number?", "bot");
+    } else {
+      await this.sendLocation(location.address, screen, phoneNumber);
+      this.addMessage("What skills are you seeking a job for?", "bot");
+    }
+  }
+
   async handleFirstInteraction(message) {
     const phoneNumberPattern = /^\d{10}$/;
     if (phoneNumberPattern.test(message)) {
@@ -90,6 +103,23 @@ class ActionProvider {
     try {
       const response = await postRequestWithJwt(endpoint, payload);
       this.addMessage(response.output, "bot");
+    } catch (error) {
+      console.error('Error sending message:', error);
+      this.addMessage("Sorry, an error occurred. Please try again.", "bot");
+    }
+  }
+
+  async sendLocation(location, screen, phoneNumber) {
+    const endpoint = `${this.baseUrl}/location`;
+    const payload = {
+      phone: phoneNumber,
+      location,
+    };
+
+    try {
+      this.addMessage(location, "user");
+      const response = await postRequestWithJwt(endpoint, payload);
+      this.addMessage("Thank you for sharing your whereabouts!", "bot");
     } catch (error) {
       console.error('Error sending message:', error);
       this.addMessage("Sorry, an error occurred. Please try again.", "bot");
